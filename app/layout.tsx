@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import CursorTrail from "./components/CursorTrail"
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
