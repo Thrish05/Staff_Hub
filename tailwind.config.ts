@@ -17,6 +17,8 @@ export default {
         "colorfulWater" : 'url("/images/zenitsu.gif")',
         "collegeBuilding" : 'url("/images/collegeBuilding.jpeg")',
         "paper" : 'url("/images/paper.jpg")',
+        "psychadelic" : 'url("/images/psychadelic.gif")',
+        "sung" : 'url("/images/sung.jpg")',
 
       },
       scrollBehavior: ['smooth'],

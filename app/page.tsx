@@ -27,7 +27,7 @@ export default function Home()
         </div>
       )}
       <div className = {` ${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000 flex flex-col`}>
-        <Header />
+        <Header className={``}/>
         <Hero />
         <Overlay />
         <Hero2 />
