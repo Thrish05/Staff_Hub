@@ -15,7 +15,7 @@ export default function Login()
                     <h2 className="text-center text-3xl font-extrabold text-gray-900">
                     Sign in to your account
                     </h2>
-                    <form className="mt-8 space-y-6 " action="/dash" method="POST">
+                    <form className="mt-8 space-y-6 " action="/api/login" method="POST">
                     <div className="rounded-md shadow-sm -space-y-px ">
                         <div>
                         <label htmlFor="email-address" className="sr-only">
