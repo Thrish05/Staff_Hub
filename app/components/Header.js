@@ -36,7 +36,7 @@ export default function Header({className})
     }, []);
     
     return(
-        <div className={clsx("fixed flex flex-row bg-black rounded-b-3xl h-[9vh] w-[96vw] text-white items-center justify-between pl-5 pr-2 shadow-lg m-4 mt-0 transition-all duration-300 z-20", className)}>
+        <div className={clsx("flex flex-row bg-black rounded-b-3xl h-[9vh] text-white items-center justify-between pl-5 pr-2 shadow-lg m-4 mt-0 transition-all duration-300", className)}>
             <img src = {`${currPath === '/login' ? "/images/cit_normallogo.jpg " : "/images/cit_whitelogo.webp"}`} className = "h-full rounded-md"></img>
             <a href = '/' className = "absolute left-1/2 -translate-x-1/2 text-xl cursor-pointer">CITadel</a>
             {currPath === '/' && (<div className="flex items-center space-x-4">

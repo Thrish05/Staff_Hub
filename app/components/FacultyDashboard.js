@@ -24,7 +24,9 @@ export default function FacultyDashboard()
           };
       
         fetchUsers();
+        
     }, []);
+
 
     const handleZoomDiv1 = () =>
     {
@@ -51,11 +53,11 @@ export default function FacultyDashboard()
     }
     return(
         <div className="flex flex-col items-center justify-center gap-10">
-            <div className="md:flex md:flex-row items-center justify-start w-full p-6 mt-14">
+            <div className="md:flex md:flex-row items-center justify-start p-6 ml-10">
                 <img src = "/images/sung.jpg" className="hidden md:block h-[250px] w-[250px] rounded-full object-cover left-10 mr-10"/>
                 
                 <div className="flex flex-col transition-all duration-300">
-                    <h1 className="bg-clip-text text-[60px] lg:text-[80px] overflow-hidden text-transparent bg-gradient-to-r from-purple-500  via-yellow-300 to-pink-500">Hello, A. Suresh blah blah blah.</h1>  
+                    <h1 className="bg-clip-text text-[60px] lg:text-[80px] overflow-hidden text-transparent bg-gradient-to-r from-purple-500  via-yellow-300 to-pink-500">Hello, A Suresh.</h1>  
                     <div className="flex flex-row gap-10">
                         <h1 className="text-[30px] lg:text-[50px] text-black">Mechanical.</h1>
                         <span className="text-[30px] lg:text-[50px] text-black">|</span>
@@ -63,32 +65,32 @@ export default function FacultyDashboard()
                     </div>
                 </div>
             </div>
-            <div className = "relative flex items-center justify-center bg-red-400">
+            <div className = "relative flex items-center justify-center">
                 <div className="grid grid-cols-2 gap-6 w-[90vw] rounded-2xl min-h-screen mb-4" data-aos = "fade-up">
                     <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv1 }>
-                    1️⃣ Research & Academic Contributions
-    ✅ Publications Overview (Bar Chart) – Display yearly publications count with filters for journals, conferences, patents, books.
-    ✅ Citation Metrics (Line Chart) - Show citations over time for an individual's research work.
-    ✅ H-Index & i10-Index – Display key research performance indicators.
+                    1️⃣ Research & Academic Contributions <br />
+    ✅ Publications Overview (Bar Chart) – Display yearly publications count with filters for journals, conferences, patents, books. <br />
+    ✅ Citation Metrics (Line Chart) - Show citations over time for an individual's research work.<br />
+    ✅ H-Index & i10-Index – Display key research performance indicators.<br />
                     </div>
                     <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv2 }>
                     2️⃣ Teaching & Course Management
-    ✅ Courses Taught (Pie Chart) – Visual breakdown of subjects taught over the years.
-    ✅ Student Performance Analytics – Show grade distribution of students in a bar chart.
-    ✅ Course Feedback Summary – Aggregate student feedback ratings into a heatmap or radar chart.
-    ✅ Attendance Records – Line graph for class-wise attendance trends over semesters.
+    ✅ Courses Taught (Pie Chart) – Visual breakdown of subjects taught over the years. <br />
+    ✅ Student Performance Analytics – Show grade distribution of students in a bar chart.<br />
+    ✅ Course Feedback Summary – Aggregate student feedback ratings into a heatmap or radar chart.<br />
+    ✅ Attendance Records – Line graph for class-wise attendance trends over semesters.<br />
                     </div>
                     <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv3 }>
                     4️⃣ Administrative & Institutional Data
-    ✅ Committee & Department Roles – List of roles held over time (e.g., HOD, Examination Coordinator, AI Lab Head).
-    ✅ Event Participation (Timeline Chart) – Conferences, workshops, invited talks attended.
-    ✅ Collaboration Network (Graph Visualization) – Show co-authors, research partners, and institutions worked with.
+    ✅ Committee & Department Roles – List of roles held over time (e.g., HOD, Examination Coordinator, AI Lab Head).<br />
+    ✅ Event Participation (Timeline Chart) – Conferences, workshops, invited talks attended.<br />
+    ✅ Collaboration Network (Graph Visualization) – Show co-authors, research partners, and institutions worked with.<br />
                     </div>
                     <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv4 }>
                     5️⃣ Student Engagement & Mentorship
-    ✅ PhD/Masters Students Supervised – Display students mentored along with their research topics.
-    ✅ Internship & Placement Tracker – Show students placed under faculty mentorship.
-    ✅ Alumni Tracking – Visualize where past students are now working/researching.
+    ✅ PhD/Masters Students Supervised – Display students mentored along with their research topics.<br />
+    ✅ Internship & Placement Tracker – Show students placed under faculty mentorship.<br />
+    ✅ Alumni Tracking – Visualize where past students are now working/researching.<br />
                     </div>
                     
                 </div> 
