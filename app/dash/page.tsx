@@ -16,7 +16,7 @@ export default function Dash()
         <div>
             {showSplash && (
                 <div className="fixed inset-0 flex items-center justify-center">
-                    <h1 className="text-[100px] bg-gradient-to-r from-purple-500 via-yellow-300 to-pink-500 bg-clip-text text-transparent font-light">
+                    <h1 className="text-[100px] bg-colorfulWater bg-clip-text text-transparent font-light">
                     Welcome to CITADEL
                     </h1>
               </div>
@@ -24,7 +24,6 @@ export default function Dash()
             <div className={`${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000`}>
                 <Header className = {``}/>
                 <FacultyDashboard />
-            
             </div>
         </div>
     );
