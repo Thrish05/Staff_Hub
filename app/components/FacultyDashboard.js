@@ -1,169 +1,258 @@
 "use client"
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useState, useEffect, useRef } from "react";
-export default function FacultyDashboard()
-{
-    const [users, setUsers] = useState([]);
-    const [zoomDiv1, setZoomDiv1] = useState(false);
-    const [zoomDiv2, setZoomDiv2] = useState(false);
-    const [zoomDiv3, setZoomDiv3] = useState(false);
-    const [zoomDiv4, setZoomDiv4] = useState(false);
+import { useState, useEffect } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+
+export default function FacultyDashboard() {
+    const [researchData, setResearchData] = useState([]);
+    const [fdpData, setFdpData] = useState([]);
+    const [patentData, setPatentData] = useState([]);
+    const [projectData, setProjectData] = useState([]);
+    const [projectDetails, setProjectDetails] = useState([]);
+    const [showDetails, setShowDetails] = useState(false);
+    const [selectedProjectDetails, setSelectedProjectDetails] = useState(null);
 
     useEffect(() => {
         AOS.init();
 
-        const fetchUsers = async () => {
+        const fetchResearchDetails = async () => {
             try {
-              const response = await fetch("/api/users");
-              const data = await response.json();
-              setUsers(data);
+                const response = await fetch("/api/research");
+                const data = await response.json();
+                const filteredData = data.filter(item => item.publications_count > 0);
+                setResearchData(filteredData);
             } catch (error) {
-              console.error("Error fetching users:", error);
+                console.error("Error fetching research details:", error);
             }
-          };
-      
-        fetchUsers();
-        
+        };
+
+        const fetchFdpData = async () => {
+            try {
+                const response = await fetch("/api/fdp");
+                const data = await response.json();
+                const cleanFdpData = data.filter(item => item.fdp_count > 0);
+                setFdpData(cleanFdpData);
+            } catch (error) {
+                console.error("Error fetching FDP data:", error);
+            }
+        };
+
+        const fetchPatentData = async () => {
+            try {
+                const response = await fetch("/api/patent");
+                const data = await response.json();
+                const cleanPatentData = data.filter(item => item.patents_count > 0);
+                setPatentData(cleanPatentData);
+            } catch (error) {
+                console.error("Error fetching patent data:", error);
+            }
+        };
+
+        const fetchProjectData = async () => {
+            try {
+                const response = await fetch("/api/project");
+                const data = await response.json();
+                setProjectData(data);
+            } catch (error) {
+                console.error("Error fetching project data:", error);
+            }
+        };
+
+        const fetchProjectDetails = async () => {
+            try {
+                const response = await fetch("/api/projectDetails");
+                const data = await response.json();
+                setProjectDetails(data);
+            } catch (error) {
+                console.error("Error fetching project details:", error);
+            }
+        };
+
+        fetchPatentData();
+        fetchResearchDetails();
+        fetchFdpData();
+        fetchProjectData();
+        fetchProjectDetails();
     }, []);
 
+    const handleProjectClick = (facultyName) => {
+        const facultyDetails = projectDetails.filter(item => item.faculty_name === facultyName);
 
-    const handleZoomDiv1 = () =>
-    {
-        setZoomDiv1(!zoomDiv1);
-    }
-    const handleZoomDiv2 = () =>
-    {
-        setZoomDiv2(!zoomDiv2);
-    }
-    const handleZoomDiv3 = () =>
-    {
-        setZoomDiv3(!zoomDiv3);
-    }
-    const handleZoomDiv4 = () =>
-    {
-        setZoomDiv4(!zoomDiv4);
-    }
-    const handleExpandedView = () => 
-    {
-        setZoomDiv1(false);
-        setZoomDiv2(false);
-        setZoomDiv3(false);
-        setZoomDiv4(false);
-    }
-    return(
+        console.log("Faculty Details (All Projects):", facultyDetails);  // Debugging Log
+        if (facultyDetails.length > 0) {
+            setSelectedProjectDetails(facultyDetails);
+            setShowDetails(true);
+        } else {
+            console.warn(`No projects found for faculty: ${facultyName}`);
+        }
+    };
+
+
+
+    const closeDetails = () => setShowDetails(false);
+
+    return (
         <div className="flex flex-col items-center justify-center gap-10">
             <div className="md:flex md:flex-row items-center justify-start p-6 ml-10">
-                <img src = "/images/sung.jpg" className="hidden md:block h-[250px] w-[250px] rounded-full object-cover left-10 mr-10"/>
-                
+                <img src="/images/sung.jpg" className="hidden md:block h-[250px] w-[250px] rounded-full object-cover left-10 mr-10" />
+
                 <div className="flex flex-col transition-all duration-300">
-                    <h1 className="bg-clip-text text-[60px] lg:text-[80px] overflow-hidden text-transparent bg-gradient-to-r from-purple-500  via-yellow-300 to-pink-500">Hello, A Suresh.</h1>  
+                    <h1 className="bg-clip-text text-[60px] lg:text-[80px] overflow-hidden text-transparent bg-gradient-to-r from-purple-500 via-yellow-300 to-pink-500">Hello, Dr. R.M Bommi.</h1>
                     <div className="flex flex-row gap-10">
-                        <h1 className="text-[30px] lg:text-[50px] text-black">Mechanical.</h1>
+                        <h1 className="text-[30px] lg:text-[50px] text-black">VLSI.</h1>
                         <span className="text-[30px] lg:text-[50px] text-black">|</span>
                         <h1 className="text-[30px] lg:text-[50px] text-black">Assistant Professor.</h1>
                     </div>
                 </div>
             </div>
-            <div className = "relative flex items-center justify-center">
-                <div className="grid grid-cols-2 gap-6 w-[90vw] rounded-2xl min-h-screen mb-4" data-aos = "fade-up">
-                    <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv1 }>
-                    1️⃣ Research & Academic Contributions <br />
-    ✅ Publications Overview (Bar Chart) – Display yearly publications count with filters for journals, conferences, patents, books. <br />
-    ✅ Citation Metrics (Line Chart) - Show citations over time for an individual's research work.<br />
-    ✅ H-Index & i10-Index – Display key research performance indicators.<br />
+
+            <div className="relative flex items-center justify-center">
+                <div className="grid grid-cols-2 gap-6 w-[90vw] rounded-2xl" data-aos="fade-up">
+                    <div className="m-3 h-[350px] w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] transition-all duration-300 ease-in-out">
+                        <h2 className="text-center text-2xl mb-4">Department Research Analysis</h2>
+                        <ResponsiveContainer width="100%" height="80%">
+                            <BarChart data={researchData}>
+                                <XAxis dataKey="faculty_name" hide={true} />
+                                <YAxis />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} content={({ payload }) => (
+                                    payload && payload.length ? (
+                                        <div className="bg-white text-black p-2 rounded shadow-lg">
+                                            {payload[0]?.payload?.faculty_name}: {payload[0]?.payload?.publications_count}
+                                        </div>
+                                    ) : null
+                                )} />
+                                <Legend />
+                                <Bar dataKey="publications_count" fill="#8884d8">
+                                    {researchData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.faculty_name === 'Dr R.M.Bommi' ? "#FF5733" : "#8884d8"} cursor="pointer" />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
-                    <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv2 }>
-                    2️⃣ Teaching & Course Management
-    ✅ Courses Taught (Pie Chart) – Visual breakdown of subjects taught over the years. <br />
-    ✅ Student Performance Analytics – Show grade distribution of students in a bar chart.<br />
-    ✅ Course Feedback Summary – Aggregate student feedback ratings into a heatmap or radar chart.<br />
-    ✅ Attendance Records – Line graph for class-wise attendance trends over semesters.<br />
+
+                    <div className="m-3 h-[350px] w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] transition-all duration-300 ease-in-out">
+                        <h2 className="text-center text-2xl mb-4">Department FDP Analysis</h2>
+                        <ResponsiveContainer width="100%" height="80%">
+                            <BarChart data={fdpData}>
+                                <XAxis dataKey="faculty_name" hide={true} />
+                                <YAxis />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} content={({ payload }) => (
+                                    payload && payload.length ? (
+                                        <div className="bg-white text-black p-2 rounded shadow-lg">
+                                            {payload[0]?.payload?.faculty_name}: {payload[0]?.payload?.fdp_count}
+                                        </div>
+                                    ) : null
+                                )} />
+                                <Legend payload={[{ value: 'fdp_attended', type: 'rect', color: '#8884d8' }]} />
+                                <Bar dataKey="fdp_count" fill="#8884d8">
+                                    {fdpData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.faculty_name === 'Dr R.M.Bommi' ? "#FF5733" : "#8884d8"} cursor="pointer" />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
-                    <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv3 }>
-                    4️⃣ Administrative & Institutional Data
-    ✅ Committee & Department Roles – List of roles held over time (e.g., HOD, Examination Coordinator, AI Lab Head).<br />
-    ✅ Event Participation (Timeline Chart) – Conferences, workshops, invited talks attended.<br />
-    ✅ Collaboration Network (Graph Visualization) – Show co-authors, research partners, and institutions worked with.<br />
+                    <div className="m-3 h-[350px] w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] transition-all duration-300 ease-in-out">
+                        <h2 className="text-center text-2xl mb-4">Department Patent Analysis</h2>
+                        <ResponsiveContainer width="100%" height="80%">
+                            <BarChart data={patentData}>
+                                <XAxis dataKey="faculty_name" hide={true} />
+                                <YAxis />
+                                <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} content={({ payload }) => (
+                                    payload && payload.length ? (
+                                        <div className="bg-white text-black p-2 rounded shadow-lg">
+                                            {payload[0]?.payload?.faculty_name}: {payload[0]?.payload?.patents_count}
+                                        </div>
+                                    ) : null
+                                )} />
+                                <Legend />
+                                <Bar dataKey="patents_count" fill="#8884d8">
+                                    {patentData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.faculty_name === 'Dr R.M.Bommi' ? "#FF5733" : "#8884d8"} cursor="pointer" />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
-                    <div className="m-3 h-full w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] ease-in-out transition duration-300 cursor-pointer" onClick = { handleZoomDiv4 }>
-                    5️⃣ Student Engagement & Mentorship
-    ✅ PhD/Masters Students Supervised – Display students mentored along with their research topics.<br />
-    ✅ Internship & Placement Tracker – Show students placed under faculty mentorship.<br />
-    ✅ Alumni Tracking – Visualize where past students are now working/researching.<br />
-                    </div>
-                    
-                </div> 
-                {zoomDiv1 && (
-                    <div className = "fixed inset-0 bg-black bg-opacity-60 z-10 flex items-center justify-center transition-all duration-1000">
-                        <div className = "relative bg-white text-black rounded-2xl h-[90vh] w-[90vw] shadow-2xl transition duration-300">
-                            <button className="absolute right-2 top-2 text-white hover:scale-110 active:scale-90 transition duration-300" onClick = {handleExpandedView}>❌</button>
-                            zoomDiv1
+                    <div className="grid grid-cols-2 gap-6 w-[90vw] rounded-2xl">
+                        <div className="m-3 h-[350px] w-full rounded-xl p-4 shadow-xl bg-black text-white hover:scale-[105%] transition-all duration-300 ease-in-out">
+                            <h2 className="text-center text-2xl mb-4">Department Projects Analysis</h2>
+                            <ResponsiveContainer width="100%" height="80%">
+                                <BarChart data={projectData}>
+                                    <XAxis dataKey="faculty_name" hide={true} />
+                                    <YAxis domain={[0, 'dataMax']} interval={3} />
+                                    <Tooltip cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }} content={({ payload }) => (
+                                        payload && payload.length ? (
+                                            <div className="bg-white text-black p-2 rounded shadow-lg">
+                                                {payload[0]?.payload?.faculty_name}: {payload[0]?.payload?.project_count}
+                                            </div>
+                                        ) : null
+                                    )} />
+                                    <Legend />
+                                    <Bar dataKey="project_count" fill="#8884d8">
+                                        {projectData.map((entry, index) => (
+                                            <Cell
+                                                key={`cell-${index}`}
+                                                fill={entry.faculty_name === 'Dr R.M.Bommi' ? "#FF5733" : "#8884d8"}
+                                                cursor={entry.faculty_name === 'Dr R.M.Bommi' ? "pointer" : "default"}
+                                                onClick={() => handleProjectClick(entry.faculty_name)}
+                                            />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
                         </div>
-                        
                     </div>
-                )} 
-                {zoomDiv2 && (
-                    <div className = "fixed inset-0 bg-black bg-opacity-60 z-10 flex items-center justify-center transition-all duration-1000">
-                        <div className = "relative bg-white text-black rounded-2xl h-[90vh] w-[90vw] shadow-2xl transition duration-300">
-                            <button className="absolute right-2 top-2 text-white hover:scale-110 active:scale-90 transition duration-300" onClick = {handleExpandedView}>❌</button>
-                            zoomDiv2
-                        </div>
-                        
-                    </div>
-                )} 
-                {zoomDiv3 && (
-                    <div className = "fixed inset-0 bg-black bg-opacity-60 z-10 flex items-center justify-center transition-all duration-1000">
-                        <div className = "relative bg-white text-black rounded-2xl h-[90vh] w-[90vw] shadow-2xl transition duration-300">
-                            <button className="absolute right-2 top-2 text-white hover:scale-110 active:scale-90 transition duration-300" onClick = {handleExpandedView}>❌</button>
-                            zoomDiv3
-                        </div>
-                        
-                    </div>
-                )} 
-                {zoomDiv4 && (
-                    <div className = "fixed inset-0 bg-black bg-opacity-60 z-10 flex items-center justify-center transition-all duration-1000">
-                        <div className = "relative bg-white text-black rounded-2xl h-[90vh] w-[90vw] shadow-2xl transition duration-300">
-                            <button className="absolute right-2 top-2 text-white hover:scale-110 active:scale-90 transition duration-300" onClick = {handleExpandedView}>❌</button>
-                            zoomDiv4
-                        </div>
-                        
-                    </div>
-                )}    
-            </div>  
-            
-            
-            <h1 className="flex justify-center text-4xl" data-aos = "fade-up">Current Semester</h1>       
-            <div className="relative w-full p-4 flex flex-col items-start justify-normal" data-aos = "fade-up">
-                <div className="bg-black h-[50vh] w-full text-white shadow-xl rounded-xl p-4">
-                    HOLA THIS IS A TEST
                 </div>
-            </div> 
-            <h1 className="flex justify-center text-4xl" data-aos = "fade-up">Projects</h1>       
-            <div className="w-full p-4 mb-30">
-                {users.length > 0 && users.map((user) => (
-                    <div key = {user._id} className="bg-white text-black border-r-8 border-b-8 border-black border-2 w-full rounded-xl shadow-xl flex flex-row mb-10 p-4 gap-10 overflow-hidden transition-all duration-300" data-aos = "fade-up">
-                        <div className="flex flex-col w-[70%] gap-3">
-                            <h1 className = "text-[30px] text-inherit overflow-hidden sm:text-[40px] transition-all duration-300">{user.prj_name}</h1>
-                            <p className = "hidden text-[25px] text-inherit md:block">{user.prj_desc}</p>
-                            <p className = "hidden text[20px] text-inherit md:block" ><span className="font-bold">Funding Agency:</span> {user.funding_agency}</p>
-                            <p className = "text[20px] text-inherit md:block"><span className="font-bold">Amount Sanctioned:</span> {user.amt_sanctioned}</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <h1 className = "text-[20px] text-inherit"><span className="font-bold">Duration: {user.duration} Months</span></h1>
-                            <h1 className = "text-[20px] text-inherit sm:text-[30px]"><span className="font-bold">Status: {user.status === true ? <span className="text-green-400">Completed</span> : <span className="text-blue-500">In-Progress</span>}</span></h1>
+
+                {showDetails && selectedProjectDetails && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex items-center justify-center">
+                        <div className="bg-white p-8 rounded-lg shadow-2xl w-[80%] max-w-4xl h-[80%] overflow-y-auto">
+                            <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-6">Project Details</h2>
+
+                            {selectedProjectDetails.map((project, index) => (
+                                <div
+                                    key={project.project_id}
+                                    className={`border-l-4 pl-4 mb-6 pb-4 rounded-md ${index % 2 === 0 ? 'border-blue-500 bg-blue-50' : 'border-green-500 bg-green-50'}`}
+                                >
+                                    <p className="text-lg p-1"><strong>Title:</strong> {project.project_title}</p>
+                                    <p className="text-gray-600 italic">{project.project_desc}</p>
+
+                                    <div className="grid grid-cols-2 gap-4 mt-4">
+                                        <p><strong>Principal Investigator:</strong> {project.principle_investigator}</p>
+                                        <p><strong>Co-Principal Investigator(s):</strong> {project.co_principle_investigator || 'N/A'}</p>
+                                        <p><strong>Year of Award:</strong> {project.year_of_award || 'N/A'}</p>
+                                        <p>
+                                            <strong>Funding Amount:</strong> ₹
+                                            {project.amount ? Number(project.amount).toLocaleString() : 'N/A'}
+                                        </p>
+                                        <p><strong>Duration:</strong> {project.duration_in_months} months</p>
+                                        <p><strong>Funding Agency:</strong> {project.funding_agent || 'N/A'}</p>
+                                        <p><strong>Type:</strong> {project.type || 'N/A'}</p>
+                                        <p><strong>Status:</strong> {project.status || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            ))}
+
+                            <button
+                                className="mt-6 w-full bg-red-500 text-white py-3 rounded-md hover:bg-red-600 transition duration-200"
+                                onClick={closeDetails}
+                            >
+                                Close
+                            </button>
                         </div>
                     </div>
-                ))}
-                {users.length == 0 && (
-                    <div className="bg-red-400 rounded-xl shadow-2xl flex flex-row mb-4 p-4 justify-center" data-aos = "fade-up">
-                        <h1 className="text-white text-[20px]">No Projects found.</h1>
-                    </div>                
                 )}
-            </div> 
-            <div className = "h-screen">
+
+
+
+
+
 
             </div>
+
         </div>
     )
 }
