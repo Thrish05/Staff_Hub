@@ -3,18 +3,19 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
-    user: "dinesh",
+    user: "postgres",
     host: "localhost",
-    database: "faculty_db",
-    password: "dinesh123",
+    database: "faculty",
+    password: "root",
     port: 5432
 });
 
-export async function GET() {
+export async function POST(req) {
     try {
+        const { id } = await req.json();
         const result = await pool.query(`
-            SELECT name AS faculty_name, patents_count FROM faculty
-        `);
+            Select status, COUNT(*) as status_count from patent_details where faculty_id = $1 GROUP BY status;
+        `, [id]);
 
         return NextResponse.json(result.rows);
     } catch (error) {

@@ -9,7 +9,7 @@ import Footer from "./components/Footer"
 
 export default function Home()
 {
-  const[showSplash, setShowSplash] = useState(true);
+  const[showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,7 +27,7 @@ export default function Home()
         </div>
       )}
       <div className = {` ${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000 flex flex-col`}>
-        <Header className={``}/>
+        <Header/>
         <Hero />
         <Overlay />
         <Hero2 />

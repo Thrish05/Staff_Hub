@@ -1,14 +1,16 @@
 "use client";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter} from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-export default function Header({className})
+export default function Header()
 {
     const currPath = usePathname();
     const [dropdownOpen, setdropdownOpen] = useState(false);
     const profileButtonRef = useRef(null);
     const dropdownRef = useRef(null);
+
+    const router = useRouter();
 
     const handleDropDownClick = () =>
     {
@@ -34,11 +36,19 @@ export default function Header({className})
                 document.removeEventListener('mousedown', handleClickOutsideDropdown);
             }
     }, []);
+
+    const handleLogOut = () =>
+    {
+        localStorage.removeItem("user");
+        router.push("/");
+    }
     
     return(
-        <div className={clsx("flex flex-row bg-black rounded-b-3xl h-[9vh] text-white items-center justify-between pl-5 pr-2 shadow-lg m-4 mt-0 transition-all duration-300", className)}>
-            <img src = {`${currPath === '/login' ? "/images/cit_normallogo.jpg " : "/images/cit_whitelogo.webp"}`} className = "h-full rounded-md"></img>
-            <a href = '/' className = "absolute left-1/2 -translate-x-1/2 text-xl cursor-pointer">CITadel</a>
+        <div className={clsx("flex flex-row bg-black h-[9vh] text-white items-center justify-between pl-5 pr-2 shadow-lg transition-all duration-300")}>
+            {/* <button className="transition-all duration-300 hover:scale-105 ring-1 ring-white h-1/2 flex items-center justify-center rounded-sm active:scale-95 p-2 text-2xl">☰</button> */}
+            {/* <img src = {`${currPath === '/login' ? "/images/cit_normallogo.jpg " : "/images/logo2.png"}`} className = "left-1/2 -translate-x-1/2 h-full rounded-md"></img> */}
+            <img src = "/images/cit_whitelogo.webp" className="h-full rounded-md aspect-square"></img>
+            <a href = '/' className = "absolute left-1/2 -translate-x-1/2 sm: text-sm lg:text-xl cursor-pointer">Chennai Institute of Technology</a>
             {currPath === '/' && (<div className="flex items-center space-x-4">
                 <a href="#footer" className=" cursor-pointer text-inherit text-sm mr-2">About Us</a>
                 <button className="relative h-8 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-1 focus:ring-offset-slate-50 ">
@@ -48,15 +58,15 @@ export default function Header({className})
                     </span>
                 </button>
             </div>)}
-            {currPath === '/dash' && (
+            {currPath !== '/' && (
                 <>
                     <button ref = { profileButtonRef } className="h-10 w-10 rounded-3xl overflow-hidden">
                         <img src = "/images/sung.jpg " className = {`object-cover w-full h-full`}  onClick = { handleDropDownClick}/>
                     </button>
 
                     <div ref = { dropdownRef } className = {` ${dropdownOpen ? "block" : "hidden"} bg-black text-white absolute right-0 top-[10vh] w-[10vw] p-2 rounded-xl shadow-xl flex flex-col space-y-1`}>
-                        <Link href = ""><button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-white hover:text-black transition duration-300 p-2 rounded-full active:scale-95">View Profile</button></Link>
-                        <Link href = "/"><button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-red-500 transition duration-300 p-2 rounded-full active:scale-95">Log Out</button></Link>
+                        <Link href = "/myprofile"><button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-white hover:text-black transition duration-300 p-2 rounded-full active:scale-95">View Profile</button></Link>
+                        <button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-red-500 transition duration-300 p-2 rounded-full active:scale-95" onClick={handleLogOut}>Log Out</button>
                     </div>
                 </>
             )}

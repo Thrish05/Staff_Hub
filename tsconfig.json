@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["video.d.ts", "video.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/FacultyDashboard.js"],
+  "include": ["video.d.ts", "video.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Analytics.js", "app/api/heroDetails/route.js", "app/login/page.js", "app/dash/page.js"],
   "exclude": ["node_modules"]
 }

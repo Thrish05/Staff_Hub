@@ -3,19 +3,26 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
-    user: "dinesh",
+    user: "postgres",
     host: "localhost",
-    database: "faculty_db",
-    password: "dinesh123",
+    database: "faculty",
+    password: "root",
     port: 5432
 });
 
-export async function GET() {
+export async function POST(req  ) {
     try {
+        const { id } = await req.json();
         const result = await pool.query(`
-            SELECT name AS faculty_name, research_papers_count AS publications_count
-            FROM faculty
-        `);
+            SELECT 
+            EXTRACT(YEAR FROM publication_date) AS publication_year,
+            COUNT(*) AS research_paper_count
+            FROM 
+            research_details
+            WHERE faculty_id = $1
+            GROUP BY 
+            publication_year;
+        `, [id]);
 
         return NextResponse.json(result.rows);
     } catch (error) {

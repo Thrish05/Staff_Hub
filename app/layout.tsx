@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${dm_sans.className}  bg-white text-black container mx-auto`}>{children}</body>
+        className={`${dm_sans.className}  bg-white text-black container`}>{children}</body>
     </html>
   );
 }
