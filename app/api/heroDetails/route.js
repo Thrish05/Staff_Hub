@@ -1,17 +1,17 @@
 import pkg from 'pg';
 const { Pool } = pkg;
-import {NextResponse} from "next/server.js";
+import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
-    user: "postgres",
+    user: "dinesh",
     host: "localhost",
     database: "faculty",
-    password: "root",
+    password: "dinesh123",
     port: 5432
 });
 
 export async function POST(req) {
-    try{
+    try {
         const { id } = await req.json();
         const result = await pool.query(`
             SELECT 
