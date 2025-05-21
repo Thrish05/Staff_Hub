@@ -33,17 +33,14 @@ export default function Dashboard() {
     return (
         <>
             <Header />
-            <div className="h-screen w-screen flex">
+            <div className="flex">
                 <Sidebar />
                 <div className="bg-white flex-1 text-black p-8 overflow-y-auto">
                     <h1 className="text-3xl font-bold mb-6">Leave Management</h1>
-
-                    {/* Form */}
                     <div className="bg-gray-50 p-6 rounded-xl shadow-lg w-full max-w-4xl">
                         <h2 className="text-xl font-semibold mb-4">Apply Leave</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Leave Type */}
                             <div>
                                 <label className="block mb-1 text-sm font-medium">Leave Type</label>
                                 <select className="w-full border rounded px-4 py-2 shadow-sm">

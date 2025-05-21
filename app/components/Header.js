@@ -44,7 +44,7 @@ export default function Header()
     }
     
     return(
-        <div className={clsx("flex flex-row bg-black h-[9vh] text-white items-center justify-between pl-5 pr-2 shadow-lg transition-all duration-300")}>
+        <div className={clsx("flex flex-row bg-black h-[50px] w-full overflow-x-hidden text-white items-center justify-between pl-5 pr-2 shadow-lg transition-all duration-300")}>
             {/* <button className="transition-all duration-300 hover:scale-105 ring-1 ring-white h-1/2 flex items-center justify-center rounded-sm active:scale-95 p-2 text-2xl">☰</button> */}
             {/* <img src = {`${currPath === '/login' ? "/images/cit_normallogo.jpg " : "/images/logo2.png"}`} className = "left-1/2 -translate-x-1/2 h-full rounded-md"></img> */}
             <img src = "/images/cit_whitelogo.webp" className="h-full rounded-md aspect-square"></img>

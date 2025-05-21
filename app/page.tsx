@@ -19,14 +19,14 @@ export default function Home()
     return () => clearTimeout(timer);
   }, []);
   return (
-    <div className = "relative">
-      {showSplash && (
+    <div className = "relative w-full overflow-x-hidden flex items-center justify-center">
+      {/* {showSplash && (
         <div className = "fixed inset-0 flex flex-col justify-center items-center bg-white z-50 animate-fadeOut w-screen h-screen">
           <img src = "/images/mob.gif" alt = "Loading" className = "w-50 rounded-lg center-10 h-40"/>
           <img src = "/images/loading.gif" alt = "Loading" className = "w-50 rounded-lg center-10 h-20"/>
         </div>
-      )}
-      <div className = {` ${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000 flex flex-col`}>
+      )} */}
+      <div className = {` ${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000 w-full flex flex-col`}>
         <Header/>
         <Hero />
         <Overlay />

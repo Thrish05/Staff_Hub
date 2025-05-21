@@ -59,7 +59,7 @@ export default function LeaveStatus() {
     return (
         <>
             <Header />
-            <div className="h-screen w-screen flex">
+            <div className="flex">
                 <Sidebar />
                 <div className="bg-white flex-1 text-black p-8 overflow-y-auto">
                     <h1 className="text-3xl font-bold mb-6">Leave Application Status</h1>
