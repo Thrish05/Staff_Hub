@@ -31,7 +31,7 @@ export default function Dash()
                     </h1>
               </div>
             )}
-            {user != null && (<div className={`${showSplash ? "opacity-0" : "opacity-100"} transition-opacity duration-1000`}>
+            {user != null && (<div className={`${showSplash ? "opacity-0" : "opacity-100"} w-full transition-opacity duration-1000`}>
                 <Header/>
                 <div className="flex flex-row">
                     <Sidebar />

@@ -64,7 +64,7 @@ export default function Header()
                         <img src = "/images/sung.jpg " className = {`object-cover w-full h-full`}  onClick = { handleDropDownClick}/>
                     </button>
 
-                    <div ref = { dropdownRef } className = {` ${dropdownOpen ? "block" : "hidden"} bg-black text-white absolute right-0 top-[10vh] w-[10vw] p-2 rounded-xl shadow-xl flex flex-col space-y-1`}>
+                    <div ref = { dropdownRef } className = {` ${dropdownOpen ? "block" : "hidden"} bg-black text-white absolute right-0 top-[10vh] w-[10vw] p-2 rounded-xl shadow-xl flex flex-col space-y-1 z-10`}>
                         <Link href = "/myprofile"><button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-white hover:text-black transition duration-300 p-2 rounded-full active:scale-95">View Profile</button></Link>
                         <button className= "border-red-100 cursor-pointer flex items-center justify-center w-full hover:bg-red-500 transition duration-300 p-2 rounded-full active:scale-95" onClick={handleLogOut}>Log Out</button>
                     </div>
