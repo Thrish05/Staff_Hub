@@ -3,11 +3,11 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
+    user: "postgres",
     host: "localhost",
-    user: "dinesh",
-    password: "dinesh123",
     database: "faculty",
-    port: 5432,
+    password: "root",
+    port: 5432
 });
 
 export async function POST(req) {

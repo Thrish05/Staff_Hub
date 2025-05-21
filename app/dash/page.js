@@ -16,18 +16,18 @@ export default function Dashboard() {
     }, [])
     return (
         <>
-            <Header />
-            <div className="h-screen flex overflow-y-auto">
+            <Header/>
+            <div className="flex ">
                 <Sidebar />
-                <div className="flex-1 p-8 pb-0 overflow-y-auto">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-10">Welcome, {userDetails.faculty_name}</h1>
-                    <div className="h-1/2 w-full ">
-                        <img src="/images/collegebuilding.jpeg" className="h-full w-full object-cover rounded-md" />
+                <div className="flex-1 p-8 overflow-y-auto">
+                    <h1 className="text-[150%] lg:text-[200%] font-bold text-gray-800 mb-5 bg-clip-text text-transparent bg-gradient-to-r from-purple-500  via-yellow-300 to-pink-500">Welcome, {userDetails.faculty_name}.</h1>
+                    <div className="h-1/4 w-full ">
+                        <img src = "/images/collegebuilding.jpeg" className="h-full w-full object-cover rounded-md" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
                         <DashboardLink href="/" title="Your Schedule" />
                         <DashboardLink href="../leave" title="Leave Management" />
-                        <DashboardLink href="../analytics" title="Activity Dashboard" />
+                        <DashboardLink href="/analytics" title="Activity Dashboard" />
                     </div>
                 </div>
             </div>

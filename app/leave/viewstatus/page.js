@@ -93,7 +93,8 @@ export default function LeaveStatus() {
     return (
         <>
             <Header />
-            <div className="h-screen w-screen flex bg-gray-50">
+            <div className="flex">
+
                 <Sidebar />
                 <main className="flex-1 p-8 overflow-y-auto">
                     <h1 className="text-4xl font-extrabold mb-8 text-gray-900">
