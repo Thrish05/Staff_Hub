@@ -32,7 +32,7 @@ export default function Analytics() {
             } catch (error) {
                 console.error("Error fetching research details:", error);
             }
-        };
+        };  
 
         const fetchProjectAcrossYears = async() => {
             try{
@@ -126,32 +126,6 @@ export default function Analytics() {
 
 
     const closeDetails = () => setShowDetails(false);
-
-
-
-    const CustomXAxisTick = ({ x, y, payload }) => {
-        const value = payload.value;
-        
-        // Example: Map value to color
-        const getColor = (val) => {
-            if (val < 1) return "#ff0000"; // red
-            if (val === 1) return "#00ff00"; // green
-            if (val === 2) return "#0000ff"; // blue
-            return "#ffffff"; // default
-        };
-
-        return (
-            <text
-            x={x}
-            y={y + 10}
-            textAnchor="middle"
-            fill={getColor(value)}
-            fontSize={14}
-            >
-            {value}
-            </text>
-        );
-    };
 
 
     return (
