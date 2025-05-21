@@ -18,7 +18,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <div className="relative w-screen pr-3">
+    <div className="relative w-full overflow-x-hidden">
       {showSplash && (
         <div className="fixed inset-0 flex flex-col justify-center items-center bg-white z-50 animate-fadeOut w-screen h-screen">
           <img src="/images/mob.gif" alt="Loading" className="w-50 rounded-lg center-10 h-40" />

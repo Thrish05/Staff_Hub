@@ -1,6 +1,6 @@
 import pkg from 'pg';
 const { Pool } = pkg;
-import {NextResponse} from "next/server.js";
+import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
     user: "postgres",
@@ -11,7 +11,7 @@ const pool = new Pool({
 });
 
 export async function POST(req) {
-    try{
+    try {
         console.log("Incoming login request:");
         const body = await req.json();
         const { email, password } = body;
@@ -23,11 +23,10 @@ export async function POST(req) {
             [email, password]
         );
 
-        if(result.rows.length == 0)
-        {
+        if (result.rows.length == 0) {
             return NextResponse.json(
-                {message: "Invalid login credentials provided"},
-                {status: 401}
+                { message: "Invalid login credentials provided" },
+                { status: 401 }
             );
         }
 
@@ -38,8 +37,8 @@ export async function POST(req) {
     catch (error) {
         console.error('Login error:', error);
         return NextResponse.json(
-        { message: 'Server error during login' },
-        { status: 500 }
+            { message: 'Server error during login' },
+            { status: 500 }
         );
     }
 

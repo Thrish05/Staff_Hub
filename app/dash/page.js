@@ -2,7 +2,7 @@
 import Header from "../components/Header";
 import Sidebar from "../components/sideBar";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
@@ -10,8 +10,7 @@ export default function Dashboard() {
     const userDetails = JSON.parse(localStorage.getItem("user") || "{}");
     const router = useRouter();
     useEffect(() => {
-        if(!userAvailable)
-        {
+        if (!userAvailable) {
             router.push("/");
         }
     }, [])

@@ -4,31 +4,9 @@ import Sidebar from "../../components/sideBar";
 import { useState } from "react";
 
 export default function Dashboard() {
-    const [onlyTomorrow, setOnlyTomorrow] = useState(false);
-    const [halfDay, setHalfDay] = useState(false);
+
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-
-    const getTomorrowDate = () => {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.toISOString().split("T")[0];
-    };
-
-    const handleOnlyTomorrowChange = () => {
-        const checked = !onlyTomorrow;
-        setOnlyTomorrow(checked);
-        setHalfDay(false);
-
-        if (checked) {
-            const tomorrow = getTomorrowDate();
-            setFromDate(tomorrow);
-            setToDate(tomorrow);
-        } else {
-            setFromDate("");
-            setToDate("");
-        }
-    };
 
     return (
         <>
@@ -45,9 +23,22 @@ export default function Dashboard() {
                                 <label className="block mb-1 text-sm font-medium">Leave Type</label>
                                 <select className="w-full border rounded px-4 py-2 shadow-sm">
                                     <option>Select Leave Type</option>
-                                    <option>Casual Leave</option>
-                                    <option>Sick Leave</option>
+                                    <option value="OD">OD - On Duty</option>
+                                    <option value="UOD">UOD - University On Duty</option>
+                                    <option value="OOD">OOD - On Duty Official</option>
+                                    <option value="CH">CH - Compensatory Holiday</option>
+                                    <option value="CL">CL - Casual Leave</option>
+                                    <option value="RH">RH - Restricted Holiday</option>
+                                    <option value="VL">VL - Vacation Leave</option>
+                                    <option value="LOP">LOP - Loss of Pay</option>
+                                    <option value="P">P - Permission</option>
+                                    <option value="SD">SD - Squad Duty</option>
+                                    <option value="EP">EP - External Practical</option>
+                                    <option value="EI">EL - External Invigilation (Theory)</option>
+                                    <option value="ET">ET - External Theory Valuation</option>
+                                    <option value="AUJ">AJ - AUJ Duty</option>
                                 </select>
+
                             </div>
 
                             {/* Approver */}
@@ -61,17 +52,6 @@ export default function Dashboard() {
                                 />
                             </div>
 
-                            <div className="flex items-center gap-2 md:col-span-2">
-                                <input
-                                    type="checkbox"
-                                    id="tomorrow"
-                                    checked={onlyTomorrow}
-                                    onChange={handleOnlyTomorrowChange}
-                                    className="accent-blue-900"
-                                />
-                                <label htmlFor="tomorrow" className="text-sm font-medium">Only For Tomorrow</label>
-                            </div>
-
 
                             {/* Date Range */}
                             <div>
@@ -81,7 +61,6 @@ export default function Dashboard() {
                                     className="w-full border rounded px-4 py-2 shadow-sm"
                                     value={fromDate}
                                     onChange={(e) => setFromDate(e.target.value)}
-                                    disabled={onlyTomorrow || halfDay}
                                 />
                             </div>
 
@@ -92,7 +71,6 @@ export default function Dashboard() {
                                     className="w-full border rounded px-4 py-2 shadow-sm"
                                     value={toDate}
                                     onChange={(e) => setToDate(e.target.value)}
-                                    disabled={onlyTomorrow || halfDay}
                                 />
                             </div>
                         </div>

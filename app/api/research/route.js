@@ -10,7 +10,7 @@ const pool = new Pool({
     port: 5432
 });
 
-export async function POST(req  ) {
+export async function POST(req) {
     try {
         const { id } = await req.json();
         const result = await pool.query(`

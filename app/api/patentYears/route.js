@@ -3,15 +3,15 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
-    host: "localhost",
     user: "postgres",
-    password: "root",
+    host: "localhost",
     database: "faculty",
-    port: 5432,
+    password: "root",
+    port: 5432
 });
 
 export async function POST(req) {
-    try{
+    try {
         const { id } = await req.json();
         const result = await pool.query(`SELECT 
         EXTRACT(YEAR FROM publication_date) AS publication_year,
@@ -24,7 +24,7 @@ export async function POST(req) {
         ORDER BY 
         publication_year;`, [id])
 
-    return NextResponse.json(result.rows);  
+        return NextResponse.json(result.rows);
     }
     catch (error) {
         console.error("Error fetching patent years:", error);
