@@ -21,15 +21,16 @@ export async function POST(req) {
             approver,
             fromDate,
             toDate,
-            reason
+            reason,
+            designation
         } = body;
 
         const result = await pool.query(
             `INSERT INTO leave_applications
-            (user_id, user_name, department, leave_type, approver, from_date, to_date, reason, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            (faculty_id, user_name, department, leave_type, approver, from_date, to_date, reason, status,designation)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9 , $10)
             RETURNING *`,
-            [userId, userName, department, leaveType, approver, fromDate, toDate, reason, 'pending']
+            [userId, userName, department, leaveType, approver, fromDate, toDate, reason, 'pending', designation]
         );
 
         return NextResponse.json({ success: true, data: result.rows[0] }, { status: 201 });
@@ -54,7 +55,7 @@ export async function GET(req) {
         const result = await pool.query(
             `SELECT id, leave_type, from_date, to_date, reason, status
              FROM leave_applications
-             WHERE user_id = $1 AND department = $2
+             WHERE faculty_id = $1 AND department = $2
              ORDER BY id DESC`,
             [userId, department]
         );
