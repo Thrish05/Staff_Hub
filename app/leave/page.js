@@ -29,7 +29,7 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <DashboardLink href="./leave/apply" title="Apply for Leave" />
                         <DashboardLink href="./leave/viewstatus" title="View Leave Status" />
-                        {user?.faculty_position === "HOD" && (
+                        {(user?.faculty_position === "HOD" || user?.faculty_position === "Principal") && (
                             <DashboardLink href="./leave/manage" title="Manage Applications" />
                         )}
                     </div>

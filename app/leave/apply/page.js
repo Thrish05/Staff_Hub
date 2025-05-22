@@ -30,6 +30,7 @@ export default function Dashboard() {
                 fromDate,
                 toDate,
                 reason,
+                designation: user.faculty_position
             }),
         });
 

@@ -26,15 +26,39 @@ export default function ManageApplications() {
     useEffect(() => {
         if (!user || !user.department) return;
 
+        const fetchHODApplications = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch(`/api/leave/hod`);
+                const data = await res.json();
+                if (data.success) {
+                    setApplications(data.data);
+                } else {
+                    console.error("Failed to load HOD applications:", data.message || data.error);
+                }
+            } catch (error) {
+                console.error("Failed to fetch HOD applications", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         const fetchApplications = async () => {
             setLoading(true);
             try {
                 const res = await fetch(`/api/leave/manage?department=${user.department}`);
                 const data = await res.json();
                 if (data.success) {
-                    setApplications(data.data);
+                    let fetchedApps = data.data;
+
+                    if (user.faculty_position === "HOD") {
+                        // HOD should not see their own application
+                        fetchedApps = fetchedApps.filter(app => app.user_name !== user.faculty_name);
+                    }
+
+                    setApplications(fetchedApps);
                 } else {
-                    console.error("Failed to load:", data.message || data.error);
+                    console.error("Failed to load applications:", data.message || data.error);
                 }
             } catch (error) {
                 console.error("Failed to fetch applications", error);
@@ -43,8 +67,15 @@ export default function ManageApplications() {
             }
         };
 
-        fetchApplications();
+        // 🔁 Decide which function to call based on user role
+        if (user.faculty_position === "Principal") {
+            fetchHODApplications();
+        } else {
+            fetchApplications();
+        }
+
     }, [user]);
+
 
     const updateStatus = async (id, newStatus) => {
         setUpdatingId(id);
