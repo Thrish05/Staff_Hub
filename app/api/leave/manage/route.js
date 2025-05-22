@@ -20,7 +20,7 @@ export async function GET(req) {
 
     try {
         const result = await pool.query(
-            `SELECT id, user_id, user_name, leave_type, from_date, to_date, reason, status
+            `SELECT id, faculty_id, user_name, leave_type, from_date, to_date, reason, status
              FROM leave_applications
              WHERE department = $1
              ORDER BY id DESC`,
