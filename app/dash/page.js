@@ -2,18 +2,24 @@
 import Header from "../components/Header";
 import Sidebar from "../components/sideBar";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
-    const userAvailable = localStorage.getItem("user");
-    const userDetails = JSON.parse(localStorage.getItem("user") || "{}");
     const router = useRouter();
+    const [userDetails, setUserDetails] = useState({});
     useEffect(() => {
+        const userAvailable = localStorage.getItem("user");
+        
         if (!userAvailable) {
             router.push("/");
         }
+        else{
+            setUserDetails(JSON.parse(userAvailable));
+        }
     }, [])
+
+    
     return (
         <>
             <Header/>
