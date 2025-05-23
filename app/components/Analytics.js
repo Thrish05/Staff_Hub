@@ -176,12 +176,14 @@ export default function Analytics() {
                                                 <p className="text-sm text-gray-600 mt-1 italic">{paper.journal_name}</p>
                                                 <p className="text-xs text-gray-500 mb-2">{new Date(paper.publication_date).toDateString()}</p>
 
-                                                <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
-                                                    <div className="text-gray-700">
-                                                    <span className="font-medium">Indexed:</span> {paper.indexed}
-                                                    </div>
-                                                    <div className="text-gray-700">
-                                                    <span className="font-medium">Quartile:</span> {paper.quartile}
+                                                <div className="gap-2 mt-2 text-sm flex flex-col">
+                                                    <div className="flex flex-row gap-x-10">
+                                                        <div className="text-gray-700">
+                                                        <span className="font-medium">Indexed:</span> {paper.indexed}
+                                                        </div>
+                                                        <div className="text-gray-700">
+                                                        <span className="font-medium">Quartile:</span> {paper.quartile}
+                                                        </div>
                                                     </div>
                                                     <div className="text-gray-700">
                                                     <span className="font-medium">Impact Factor:</span> {paper.impact_factor || "N/A"}
