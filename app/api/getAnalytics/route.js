@@ -4,15 +4,15 @@ import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
     host: "localhost",
-    user: "postgres",
-    password: "root",
+    user: "dinesh",
+    password: "dinesh123",
     database: "faculty",
     port: 5432
 });
 
-export async function POST(req){
-    try{
-        const {id} = await req.json();
+export async function POST(req) {
+    try {
+        const { id } = await req.json();
         const hero = await pool.query(`
             SELECT 
             experience_years, research_papers_count, fdp_attended_count, patents_count 
@@ -24,7 +24,7 @@ export async function POST(req){
             SELECT *
             FROM patent_details
             WHERE faculty_id = $1;`, [id]);
-        
+
         const patentStatus = await pool.query(`
             Select status, COUNT(*) as status_count from patent_details where faculty_id = $1 GROUP BY status;
         `, [id]);
@@ -82,17 +82,19 @@ export async function POST(req){
             WHERE faculty_id = $1;`, [id]);
 
 
-        return NextResponse.json({hero: hero.rows[0], patentDetails: patentDetails.rows, patentStatus: patentStatus.rows, patentsAcrossYears: patentsAcrossYears.rows,
-            researchGraph: researchGraph.rows, researchDetails: researchDetails.rows, projectGraph: projectGraph.rows, projectDetails: projectDetails.rows, fdpGraph: fdpGraph.rows, fdpDetails: fdpDetails.rows}, 
-            
+        return NextResponse.json({
+            hero: hero.rows[0], patentDetails: patentDetails.rows, patentStatus: patentStatus.rows, patentsAcrossYears: patentsAcrossYears.rows,
+            researchGraph: researchGraph.rows, researchDetails: researchDetails.rows, projectGraph: projectGraph.rows, projectDetails: projectDetails.rows, fdpGraph: fdpGraph.rows, fdpDetails: fdpDetails.rows
+        },
+
             {
-            status: 200,
-            headers: {
-                'Content-Type' : "application/json"
-            }
-        });
+                status: 200,
+                headers: {
+                    'Content-Type': "application/json"
+                }
+            });
     }
-    catch(error){
+    catch (error) {
         console.error("Error fetching details:", error);
         return NextResponse.json({ message: "Error fetching details" }, { status: 500 });
     }
