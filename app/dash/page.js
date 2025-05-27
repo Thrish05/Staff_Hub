@@ -13,7 +13,7 @@ export default function Dashboard() {
         const userAvailable = localStorage.getItem("user");
 
         if (!userAvailable) {
-            router.push("/");
+            router.push("/404");
         } else {
             setUserDetails(JSON.parse(userAvailable));
         }
@@ -25,8 +25,8 @@ export default function Dashboard() {
             <div className="flex h-[calc(100vh-64px)]"> {/* Assuming Header is 64px */}
                 <Sidebar />
                 <div className="flex-1 p-8 overflow-y-auto">
-                    <h1 className="text-[150%] lg:text-[200%] font-bold text-gray-800 mb-5 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-yellow-300 to-pink-500">
-                        Welcome, {userDetails.faculty_name}.
+                    <h1 className="text-[100%] md:text-[150%] lg:text-[200%] font-bold text-gray-800 mb-5 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-yellow-300 to-pink-500">
+                        Welcome to the Hub, {userDetails.faculty_name}.
                     </h1>
 
                     <div className="h-2/4 w-full">
@@ -34,7 +34,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5">
-                        <DashboardLink href="/" title="Your Schedule" />
+                        <DashboardLink href="/schedule" title="Your Schedule" />
                         <DashboardLink href="../leave" title="Leave Management" />
                         <DashboardLink href="/analytics" title="Activity Dashboard" />
                         <DashboardLink href="/bot" title="Walter" />

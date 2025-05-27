@@ -1,12 +1,21 @@
 'use client'
 import Header from "../components/Header"
 import Sidebar from "../components/sideBar"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
 export default function Profile() {
 
     const user = JSON.parse(localStorage.getItem("user"));
+    const router = useRouter();
     const [profileDetails, setProfileDetails] = useState({});
+
+    useEffect(() => {
+        if(!user)
+        {
+            router.push("/404");
+        }
+    }, [])
 
     useEffect(() => {
 

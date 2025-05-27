@@ -195,7 +195,7 @@ export default function Analytics() {
                                             </div>  
                                         ))}
                                     </div>
-                                    <div key = "details_1" className="relative h-[350px] w-1/2 rounded-xl p-4 shadow-xl bg-black text-white transition-all duration-300 ease-in-out">
+                                    <div key = "details_1" className="relative h-full w-1/2 rounded-xl p-4 shadow-xl bg-black text-white transition-all duration-300 ease-in-out">
                                     <h2 className="text-center text-2xl mb-4">Research Papers Across the Years</h2>
                                     <ResponsiveContainer width="100%" height="90%">
                                         <LineChart data={researchGraph} margin={{ top: 20, right: 30, left: 10, bottom: 40 }}>
@@ -327,7 +327,7 @@ export default function Analytics() {
                                             </div>
                                         ))}
                                     </div>
-                                    <div key = "details_2" className=" relative h-[350px] rounded-xl p-4 shadow-xl bg-black text-white  transition-all duration-300 ease-in-out w-1/2">
+                                    <div key = "details_2" className=" relative h-full rounded-xl p-4 shadow-xl bg-black text-white  transition-all duration-300 ease-in-out w-1/2">
                                     <h2 className="text-center text-2xl mb-4">Projects Across the Years</h2>
                                     <ResponsiveContainer width="100%" height="90%">
                                         <LineChart data={projectGraph} margin = {{ top: 20, right: 30, left: 10, bottom: 40 }}>

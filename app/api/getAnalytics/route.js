@@ -3,10 +3,10 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
+    user: "postgres",
     host: "localhost",
-    user: "dinesh",
-    password: "dinesh123",
     database: "faculty",
+    password: "root",
     port: 5432
 });
 
@@ -48,6 +48,8 @@ export async function POST(req) {
             research_details
             WHERE faculty_id = $1
             GROUP BY 
+            publication_year
+            ORDER BY
             publication_year;
         `, [id]);
 
@@ -61,7 +63,8 @@ export async function POST(req) {
             year_of_award, COUNT(*) as projects_count 
             from project_details 
             where faculty_id = $1
-            group by year_of_award;
+            group by year_of_award
+            order by year_of_award;
         `, [id]);
 
         const projectDetails = await pool.query(`

@@ -16,7 +16,7 @@ export default function SideBar() {
                     </Link>
                 </li>
                 <li className='active:scale-95 hover:scale-105 transition-all duration-300'>
-                    <Link href="/dash" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
+                    <Link href="/schedule" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
                         <Calendar className="flex flex-shrink-0 h-5 w-5" />
                         <p className='hidden lg:block'>Schedule</p>
                     </Link>

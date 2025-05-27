@@ -2,21 +2,32 @@
 import Header from "../components/Header";
 import Sidebar from "../components/sideBar";
 import Link from "next/link";
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
+    const [checkedAuth, setCheckedAuth] = useState(false);
+    const router = useRouter();
 
+    
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (err) {
-                console.error("Failed to parse user from localStorage:", err);
-            }
+            setUser(JSON.parse(storedUser));
         }
+        setCheckedAuth(true); 
     }, []);
+
+    
+    useEffect(() => {
+        if (checkedAuth && !user) {
+            router.replace("/404");
+        }
+    }, [user, checkedAuth, router]);
+
+    if (!checkedAuth) return null;
 
     return (
         <>

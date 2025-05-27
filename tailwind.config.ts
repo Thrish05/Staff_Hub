@@ -19,6 +19,7 @@ export default {
         "paper" : 'url("/images/paper.jpg")',
         "psychadelic" : 'url("/images/psychadelic.gif")',
         "sung" : 'url("/images/sung.jpg")',
+        "pleasant" : 'url("/images/pleasant.gif")'
 
       },
       scrollBehavior: ['smooth'],
