@@ -1,21 +1,57 @@
 'use client';
-import Header from "../components/Header";
-import Sidebar from "../components/sideBar";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/sideBar';
 
-export default function Profile() {
-    const [message, setMessage] = useState("");
+export default function Chat() {
+    const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
-    const chatRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        chatRef.current?.scrollIntoView({ behavior: 'smooth' });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    const handleSend = () => {
-        if (!message.trim()) return;
-        setMessages([...messages, { text: message, sender: "user" }]);
-        setMessage("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!input.trim() || isLoading) return;
+
+        setMessages(prev => [...prev, { role: 'user', content: input }]);
+        setInput('');
+        setIsLoading(true);
+
+        try {
+            const response = await fetch('/api/principal_chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: input }),
+            });
+
+            if (!response.ok) throw new Error('Network error');
+
+            const { answer, sources } = await response.json();
+
+            setMessages(prev => [
+                ...prev,
+                {
+                    role: 'assistant',
+                    content: answer,
+                    sources
+                }
+            ]);
+        } catch (err) {
+            setMessages(prev => [
+                ...prev,
+                {
+                    role: 'assistant',
+                    content: 'Sorry, an error occurred.',
+                    error: err
+                }
+            ]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -24,46 +60,58 @@ export default function Profile() {
             <div className="h-screen w-full flex flex-row bg-gray-100">
                 <Sidebar />
                 <div className="flex-1 relative flex flex-col overflow-hidden">
-                    {/* Chat message area */}
                     <div className="flex-1 overflow-y-auto p-6 space-y-4">
                         {messages.length === 0 && (
-                            <div className="text-center text-gray-400 text-xl mt-10">Start chatting...</div>
+                            <div className="text-center text-gray-400 text-xl mt-10">
+                                Ask about faculty...
+                            </div>
                         )}
-                        {messages.map((msg, idx) => (
+
+                        {messages.map((msg, i) => (
                             <div
-                                key={idx}
-                                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                                key={i}
+                                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                             >
                                 <div
-                                    className={`rounded-2xl px-4 py-2 max-w-[70%] text-white shadow-md ${msg.sender === "user" ? "bg-purple-600" : "bg-gray-700"
+                                    className={`rounded-2xl px-4 py-2 max-w-[70%] shadow-md ${msg.role === 'user'
+                                        ? 'bg-purple-600 text-white'
+                                        : msg.error
+                                            ? 'bg-red-100 text-red-800'
+                                            : 'bg-gray-700 text-white'
                                         }`}
                                 >
-                                    {msg.text}
+                                    {msg.content}
+                                    {msg.sources && (
+                                        <div className="mt-1 text-sm text-gray-300">
+                                            Sources: {msg.sources.join(', ')}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
-                        <div ref={chatRef} />
+                        <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input box */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-300 flex items-center space-x-3">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-300 flex items-center space-x-3"
+                    >
                         <input
                             type="text"
-                            placeholder="Type your message..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Type your question..."
                             className="flex-1 px-4 py-3 rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") handleSend();
-                            }}
+                            disabled={isLoading}
                         />
                         <button
-                            onClick={handleSend}
-                            className="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white px-6 py-2 rounded-full shadow-md transition-all"
+                            type="submit"
+                            disabled={isLoading}
+                            className="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white px-6 py-2 rounded-full shadow-md transition-all disabled:opacity-50"
                         >
-                            Send
+                            {isLoading ? '...' : 'Send'}
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </>
