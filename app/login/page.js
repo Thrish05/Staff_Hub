@@ -28,7 +28,6 @@ export default function Login() {
 
         if (response.ok) {
             localStorage.setItem('user', JSON.stringify(data));
-            alert('Login successful!');
             router.push('/dash');
         } else {
             alert(data.message || 'Invalid credentials');
@@ -74,7 +73,7 @@ export default function Login() {
                     <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="bg-blue-600 text-white font-medium px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300"
+                            className="bg-blue-600 text-white font-medium px-6 py-2 rounded-md hover:bg-blue-700 transition-all duration-500 active:scale-95 hover:scale-105"
                         >
                             Submit
                         </button>

@@ -95,21 +95,27 @@ async function generateResponse(query, context) {
       messages: [
         {
           role: 'system',
-          content: `### ROLE ###
-                    You are an expert research assistant. Answer questions using ONLY the following context:
-                    ### CONTEXTS ###
+          content: `
+                    ### Role ###  
+                    You are a research specialist analyzing academic projects. Strictly use only the provided context to answer.  
 
-                      ### PROJECTS ###
-                      ${formattedContext}
+                    ### Context ###  
+                    #### Projects ####  
+                    ${formattedContext}  
 
-                      ### PATENTS ###
-                      None.
+                    #### Patents ####  
+                    None available.  
 
-                    ### RULES ###
-                    1. Never mention you're an AI
-                    2. If answer isn't in the context, say "No relevant information found"
-                    3. Keep answers between 3-4 sentences
-                    `
+                    ### Response Rules ###  
+                    1. No self-reference: Do not mention your identity or system.  
+                    2. Precision:  
+                      - If the query matches context, respond concisely (3-4 sentences max).  
+                      - If no match exists, state: "No relevant data in the provided records."  
+                    3. Format:  
+                      - Skip disclaimers (e.g., "based on the context").  
+                      - Use bullet points for multi-part answers.  
+                    4. Error Handling:  
+                      - If the context is malformed, say: "Data format error. Please verify the input."`
         },
         { role: 'user', content: query }
       ],

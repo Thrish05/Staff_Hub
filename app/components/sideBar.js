@@ -1,10 +1,10 @@
 'use client';
 import Link from 'next/link';
-import { Home, Calendar, ClipboardList, BarChart2, Bot } from "lucide-react";
+import { Home, ClockFading, CalendarDays, ClipboardList, BarChart2, Bot } from "lucide-react";
 
 export default function SideBar() {
     return (
-        <div className="bg-gray-900 w-[15vw] min-h-screen text-gray-100 px-2 py-6 shadow-md flex flex-col">
+        <div className="bg-gray-900 w-[15%] max-h-full text-gray-100 px-2 py-6 shadow-md flex flex-col flex-shrink-0">
             <h2 className="hidden lg:block text-2xl font-semibold mb-8 text-center text-white tracking-wide font-inter">
                 Navigations
             </h2>
@@ -17,8 +17,14 @@ export default function SideBar() {
                 </li>
                 <li className='active:scale-95 hover:scale-105 transition-all duration-300'>
                     <Link href="/schedule" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
-                        <Calendar className="flex flex-shrink-0 h-5 w-5" />
+                        <ClockFading className="flex flex-shrink-0 h-5 w-5" />
                         <p className='hidden lg:block'>Schedule</p>
+                    </Link>
+                </li>
+                <li className='active:scale-95 hover:scale-105 transition-all duration-300'>
+                    <Link href="/calendar" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
+                        <CalendarDays className="flex flex-shrink-0 h-5 w-5" />
+                        <p className='hidden lg:block'>Calendar</p>
                     </Link>
                 </li>
                 <li className='active:scale-95 hover:scale-105 transition-all duration-300'>
