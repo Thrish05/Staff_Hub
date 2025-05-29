@@ -12,6 +12,10 @@ export default function FacultySearchPage() {
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [designationFilter, setDesignationFilter] = useState("");
+
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if(!storedUser) router.push("/404")
@@ -19,13 +23,22 @@ export default function FacultySearchPage() {
   }, [])
 
   const fetchFaculties = async (searchTerm) => {
-    if (!searchTerm) {
+    if (!searchTerm && !departmentFilter && !designationFilter) {
       setFaculties([]);
       return;
     }
+
     setLoading(true);
     try {
-      const res = await fetch(`/api/facultySearch?q=${encodeURIComponent(searchTerm)}`);
+      console.log("department: ", departmentFilter);
+      console.log("designation: ", designationFilter);
+      const params = new URLSearchParams({
+        q: searchTerm,
+        department: departmentFilter,
+        designation: designationFilter,
+      });
+
+      const res = await fetch(`/api/facultySearch?${params.toString()}`);
       const data = await res.json();
       setFaculties(data);
     } catch (err) {
@@ -35,11 +48,11 @@ export default function FacultySearchPage() {
     }
   };
 
-  const debouncedSearch = useCallback(debounce(fetchFaculties, 400), []);
+  const debouncedSearch = useCallback(debounce(fetchFaculties, 400), [departmentFilter, designationFilter]);
 
   useEffect(() => {
     debouncedSearch(query);
-  }, [query]);
+  }, [query, departmentFilter, designationFilter]);
 
   const handleFacultyClick = async (faculty) => {
     try {
@@ -70,6 +83,32 @@ export default function FacultySearchPage() {
                         className="w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-6"
                     />
 
+                    <div className="flex flex-wrap gap-4 mb-6">
+                      <select
+                        value={departmentFilter}
+                        onChange={(e) => setDepartmentFilter(e.target.value)}
+                        className="px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">All Departments</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Electrical">Electrical</option>
+                        {/* Add more departments as needed */}
+                      </select>
+
+                      <select
+                        value={designationFilter}
+                        onChange={(e) => setDesignationFilter(e.target.value)}
+                        className="px-4 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      >
+                        <option value="">All Designations</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Associate Professor">Associate Professor</option>
+                        <option value="Assistant Professor">Assistant Professor</option>
+                        {/* Add more designations as needed */}
+                      </select>
+                    </div>
                     {loading && <p className="text-gray-500">Loading...</p>}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

@@ -38,7 +38,6 @@ export default function Profile() {
     fetchProfileDetails();
   }, [user]);
 
-  // Wait for user to be loaded before rendering
   if (!user) {
     return <div>Loading...</div>;
   }

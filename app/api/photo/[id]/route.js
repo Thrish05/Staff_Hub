@@ -2,7 +2,7 @@ import { pool } from '../../../../lib/db';
 import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
-  const facultyId = await params.id;
+  const facultyId = params.id;
   console.log("ID: ", facultyId);
 
   try {
