@@ -1,4 +1,4 @@
-  'use client';
+'use client';
 import { useState, useRef, useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/sideBar';
@@ -20,7 +20,7 @@ export default function Chat() {
     const storedUser = localStorage.getItem("user");
     console.log("Stored user data:", storedUser);
     setUser(JSON.parse(storedUser));
-    
+
   }, [])
 
   const handleSubmit = async (e) => {
@@ -35,28 +35,28 @@ export default function Chat() {
       const response = await fetch(`/api/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, id: user.faculty_id}),
+        body: JSON.stringify({ message: input, id: user.faculty_id }),
       });
 
       if (!response.ok) throw new Error('Network response was not ok');
 
       const { answer, sources } = await response.json();
-      
+
       setMessages(prev => [
-        ...prev, 
-        { 
-          role: 'assistant', 
+        ...prev,
+        {
+          role: 'assistant',
           content: answer,
-          sources 
+          sources
         }
       ]);
     } catch (error) {
       setMessages(prev => [
-        ...prev, 
-        { 
-          role: 'assistant', 
+        ...prev,
+        {
+          role: 'assistant',
           content: 'Sorry, I encountered an error. Please try again.',
-          error: true 
+          error: error
         }
       ]);
     } finally {
@@ -76,20 +76,19 @@ export default function Chat() {
                 Ask about yourself, {user.faculty_position == "Principal" ? "Principal" : "Faculty"}...
               </div>
             )}
-            
+
             {messages.map((msg, i) => (
               <div
                 key={i}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`rounded-2xl px-4 py-2 max-w-[70%] shadow-md ${
-                    msg.role === 'user'
+                  className={`rounded-2xl px-4 py-2 max-w-[70%] shadow-md ${msg.role === 'user'
                       ? 'bg-purple-600 text-white'
                       : msg.error
                         ? 'bg-red-100 text-red-800'
                         : 'bg-gray-700 text-white'
-                  }`}
+                    }`}
                 >
                   {msg.content}
                   {msg.sources && (

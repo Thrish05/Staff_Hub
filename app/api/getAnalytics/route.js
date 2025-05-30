@@ -3,10 +3,10 @@ const { Pool } = pkg;
 import { NextResponse } from "next/server.js";
 
 const pool = new Pool({
-    user: "postgres",
+    user: "dinesh",
     host: "localhost",
     database: "faculty",
-    password: "root",
+    password: "dinesh123",
     port: 5432
 });
 

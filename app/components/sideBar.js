@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { Home, ClockFading, CalendarDays, ClipboardList, BarChart2, Bot } from "lucide-react";
+import { Home, ClockFading, CalendarDays, ClipboardList, BarChart2, Bot, Users } from "lucide-react";
 
 export default function SideBar() {
     return (
@@ -43,6 +43,12 @@ export default function SideBar() {
                     <Link href="/bot" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
                         <Bot className="flex flex-shrink-0 h-5 w-5" />
                         <p className='hidden lg:block'>Walter</p>
+                    </Link>
+                </li>
+                <li className='active:scale-95 hover:scale-105 transition-all duration-300'>
+                    <Link href="/globalSearch" className="flex justify-center items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-700 transition-all cursor-pointer text-lg">
+                        <Users className="flex flex-shrink-0 h-5 w-5" />
+                        <p className='hidden lg:block'>Staffs</p>
                     </Link>
                 </li>
             </ul>
