@@ -23,23 +23,25 @@ export default function Dashboard() {
     return (
         <>
             <Header />
-            <div className="flex flex-row h-full w-full">
+            <div className="flex flex-row min-h-screen w-full overflow-hidden">
                 <Sidebar />
                 <div className="flex flex-col p-8 w-full">
                     <h1 className="text-[100%] md:text-[150%] lg:text-[200%] font-bold text-gray-800 mb-5 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-yellow-300 to-pink-500">
                         Welcome to the Hub, {userDetails.faculty_name}.
                     </h1>
                     <EmblaCarousel />
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-5 w-full">
                         <DashboardLink href="/schedule" title="Your Schedule" />
                         <DashboardLink href="../leave" title="Leave Management" />
                         <DashboardLink href="/analytics" title="Activity Dashboard" />
+                        <DashboardLink href="/calendar" title="Calendar" />
                         <DashboardLink href="/bot" title="Walter" />
+                        <DashboardLink href="/globalSearch" title="Staffs" />
                     </div>
-                    
+
                 </div>
-                
+
             </div>
         </>
     );

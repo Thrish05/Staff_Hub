@@ -2,26 +2,26 @@ import { Pool } from 'pg';
 import axios from 'axios';
 
 // Configuration
-const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://localhost:11434';
+// const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://localhost:11434';
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL
 });
 
 export async function POST(req) {
   try {
-    const {query, id} = await req.json();
-    
+    const { query, id } = await req.json();
+
     // 1. Get embedding (fallback method)
     const embedding = await generateEmbedding(query);
-    
+
     // 2. Vector search
     const results = await vectorSearch(embedding, id);
-    
+
     // 3. Generate response
     const answer = await generateResponse(query, results);
-    
+
     return Response.json({ answer });
-    
+
   } catch (error) {
     console.error(error);
     return Response.json(
@@ -43,10 +43,10 @@ async function generateEmbedding(text) {
     if (!response.data?.embedding || !Array.isArray(response.data.embedding)) {
       throw new Error('Invalid embedding response');
     }
-    
+
     const embedding = response.data.embedding;
     // console.log("Embedding of user query: ", embedding);
-    
+
     // Verify 768 dimensions
     if (embedding.length !== 768) {
       throw new Error(`Dimension mismatch: Expected 768, got ${embedding.length}`);
@@ -56,7 +56,7 @@ async function generateEmbedding(text) {
 
   } catch (error) {
     console.error('Embedding error:', error.message);
-    
+
     // Fallback to zero vector
     return new Array(768).fill(0);
   }
@@ -81,7 +81,7 @@ async function vectorSearch(embedding, id) {
 }
 
 async function generateResponse(query, context) {
-  const formattedContext = context.map((c, index) => 
+  const formattedContext = context.map((c, index) =>
     `PROJECT ${index + 1}:
      Title: ${c.title || 'No title available'}
      Description: ${c.description || 'No description'}
@@ -91,7 +91,7 @@ async function generateResponse(query, context) {
 
   try {
     const res = await axios.post('http://localhost:11434/api/chat', {
-      model: 'llama3.2', 
+      model: 'llama3.2',
       messages: [
         {
           role: 'system',
@@ -123,7 +123,7 @@ async function generateResponse(query, context) {
     });
 
     return res.data.message?.content || "No relevant information found";
-    
+
   } catch (error) {
     console.error('Generation error:', error.response?.data || error.message);
     return "Unable to retrieve information";
